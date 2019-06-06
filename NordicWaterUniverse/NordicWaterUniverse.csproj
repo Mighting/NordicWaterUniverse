@@ -65,6 +65,7 @@
     </Compile>
     <Compile Include="Area.cs" />
     <Compile Include="CheckIn.cs" />
+    <Compile Include="CheckInViewModel.cs" />
     <Compile Include="CheckOut.cs" />
     <Compile Include="Chip.cs" />
     <Compile Include="MainWindow.xaml.cs">

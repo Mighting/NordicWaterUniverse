@@ -23,22 +23,9 @@ namespace NordicWaterUniverse
     public partial class MainWindow : Window
     {
 
-        CheckIn checkin = new CheckIn("Area 1");
-
         public MainWindow()
         {
-            InitializeComponent();
-            checkin.CheckIntoArea();
-            
-        }
-
-
-        public void UpdateText()
-        {
-            //Add the input we got to a text field
-            richTextBox1.Document.Blocks.Clear();
-            richTextBox1.Document.Blocks.Add(new Paragraph(new Run(checkin.InputFromPort)));
-
+            InitializeComponent();       
         }
 
 
