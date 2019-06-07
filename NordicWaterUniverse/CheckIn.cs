@@ -1,37 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace NordicWaterUniverse
 {
-    class CheckIn : Area
+    class CheckIn : Area, INotifyPropertyChanged
     {
         //Connection port
         public static SerialPort port = new SerialPort("COM9", 9600);
 
-        //Make sure the Input does not says null
+        public event EventHandler newInput;
 
-        private string inputFromPort = "";
+        //Make sure the Input does not says null
+        private string inputFromPort = "Nothing is scanned or the value is null";
 
         public string InputFromPort
         {
             get { return inputFromPort; }
-            set { inputFromPort = value; }
+            set {
+                inputFromPort = value;
+                OnPropertyChanged(InputFromPort);
+                newInput(this,new EventArgs());
+            }
         }
-
 
         //Thread to make the connection
         Thread OpenConnectionThread = new Thread(OpenConnection);
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
         public CheckIn(string areaName) : base(areaName)
         {
-            inputFromPort = InputFromPort;
+
             //Start the Connection Thread
             OpenConnectionThread.Start();
+
+            //Subscribe to the Serial Data recived event
+            port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+        }
+
+        static void FileEvent(object sender, FileSystemEventArgs e)
+        {
+            Console.WriteLine("Input changed");
         }
 
         public static void OpenConnection()
@@ -43,12 +65,6 @@ namespace NordicWaterUniverse
             }
         }
 
-        public void CheckIntoArea()
-        {
-            //Subscribe to the Serial Data recived event
-            port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
-        }
-
         public void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             //Put the data we get into an buffer
@@ -56,7 +72,8 @@ namespace NordicWaterUniverse
             intBuffer = port.BytesToRead;
             byte[] byteBuffer = new byte[intBuffer];
             //Take what we got and put it in a string
-            inputFromPort = port.ReadLine();
+            InputFromPort = port.ReadLine();
+            Console.WriteLine("Input from the object class: " + inputFromPort + " From the Model");
         }
 
 

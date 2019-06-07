@@ -68,6 +68,8 @@
     <Compile Include="CheckInViewModel.cs" />
     <Compile Include="CheckOut.cs" />
     <Compile Include="Chip.cs" />
+    <Compile Include="DispatchService.cs" />
+    <Compile Include="ItemsChangeObservableCollection.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
