@@ -19,12 +19,12 @@ namespace NordicWaterUniverse
         public event PropertyChangedEventHandler PropertyChanged;
 
         //Create a checkin.
-        CheckIn checkin = new CheckIn();
+        CheckIn checkin = CheckIn.getInstance();
 
 
         public CheckInViewModel()
         {
-            checkin.newInput += AddToList;
+            CheckIn.getInstance().newInput += AddToList;
         }
 
         public ItemsChangeObservableCollection<CheckIn> Checkins
@@ -43,7 +43,7 @@ namespace NordicWaterUniverse
 
         private void AddToList(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.Invoke((Action)(() => { checkins.Add(checkin); }));
+            Application.Current.Dispatcher.Invoke((Action)(() => { checkins.Add(CheckIn.getInstance()); }));
         }
     }
 }
