@@ -12,27 +12,14 @@ namespace NordicWaterUniverse
 {
     class CheckInViewModel : INotifyPropertyChanged
     {
+        //Create a truely observable list.
         private ItemsChangeObservableCollection<CheckIn> checkins = new ItemsChangeObservableCollection<CheckIn>();
 
+        //Event to check on the list.
         public event PropertyChangedEventHandler PropertyChanged;
 
-        CheckIn checkin = new CheckIn("Area 1");
-
-        public ItemsChangeObservableCollection<CheckIn> Checkins
-        {
-            get { return checkins; }
-            set
-            {
-                Application.Current.Dispatcher.Invoke((Action)(() => { OnPropertyChanged("Checkins"); checkins = value; }));
-                
-            }
-        }
-
-        protected void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Console.WriteLine("Input from first object in the list: " + checkins[0].InputFromPort + " From ViewModel");
-        }
+        //Create a checkin.
+        CheckIn checkin = new CheckIn();
 
 
         public CheckInViewModel()
@@ -40,9 +27,23 @@ namespace NordicWaterUniverse
             checkin.newInput += AddToList;
         }
 
-        public void AddToList(object sender, EventArgs e)
+        public ItemsChangeObservableCollection<CheckIn> Checkins
         {
-            Application.Current.Dispatcher.Invoke((Action)(() => { checkins.Add(new CheckIn("Area 1")); }));
+            get { return checkins; }
+            set
+            {
+                Application.Current.Dispatcher.Invoke((Action)(() => { OnPropertyChanged("Checkins"); checkins = value; }));
+            }
+        }
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void AddToList(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke((Action)(() => { checkins.Add(checkin); }));
         }
     }
 }

@@ -9,6 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
+/*
+ * THIS IS CODE FROM THE INTERNET
+ * TO MAKE A TRUELY OBSERVABLE LIST
+ * STOLEN FROM HERE:
+ * https://www.codeproject.com/Tips/694370/How-to-Listen-to-Property-Chang
+ */
+
+
+
 namespace VJCollections
 {
     public class ItemsChangeObservableCollection<T> :

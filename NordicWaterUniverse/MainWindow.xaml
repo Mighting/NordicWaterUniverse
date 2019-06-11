@@ -20,7 +20,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text= "{Binding InputFromPort}"/>
+                        <TextBlock Text= "{Binding  InputFromPort }"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

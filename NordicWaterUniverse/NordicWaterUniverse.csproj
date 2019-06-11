@@ -63,12 +63,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Area.cs" />
     <Compile Include="CheckIn.cs" />
     <Compile Include="CheckInViewModel.cs" />
-    <Compile Include="CheckOut.cs" />
-    <Compile Include="Chip.cs" />
-    <Compile Include="DispatchService.cs" />
     <Compile Include="ItemsChangeObservableCollection.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
