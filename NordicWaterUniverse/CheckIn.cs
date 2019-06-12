@@ -1,28 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.IO;
 
 namespace NordicWaterUniverse
 {
     class CheckIn : INotifyPropertyChanged
     {
-        public event EventHandler newInput;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private static CheckIn instance = new CheckIn();
 
+        private string myChipId;
 
-        string myChipId;
+        public string MyChipId
+        {
+            get { return myChipId; }
+            set { myChipId = value;
+                //This gets called when MyChipId changes.
+                    OnPropertyChanged(MyChipId);
+            }
+        }
+
+        //Event to see if a property changed.
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private CheckIn()
         {
+            //Subscribe to ComPortListener's newScan so we know when there have been a scan
             ComPortListener.getInstance().newScan += OnNewInput;
         }
 
@@ -31,18 +38,14 @@ namespace NordicWaterUniverse
             return instance;
         }
 
-
-        protected void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        //Gets called when a scan from ComportListener happend
         private void OnNewInput(object sender, EventArgs e)
         {
+            //We check to see what E is, and then we parse it into our own EventArgs to get the ChipIdNumber and put that into our own ChipId
             if (e is CheckInEventArgs)
             {
                 CheckInEventArgs ch = (CheckInEventArgs)e;
-                myChipId = ch.ChipIdNumber;
+                MyChipId = ch.ChipIdNumber;
             }
         }
 

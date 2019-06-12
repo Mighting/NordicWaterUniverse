@@ -68,7 +68,6 @@
     <Compile Include="CheckInViewModel.cs" />
     <Compile Include="ComPortListener.cs" />
     <Compile Include="DBController.cs" />
-    <Compile Include="ItemsChangeObservableCollection.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

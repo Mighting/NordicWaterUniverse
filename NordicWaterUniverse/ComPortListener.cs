@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace NordicWaterUniverse
 {
@@ -17,8 +13,22 @@ namespace NordicWaterUniverse
         Thread OpenConnectionThread = new Thread(OpenConnection);
 
         public event EventHandler newScan;
-        public string chipId = "Is empty";
 
+        private string chipId;
+
+        public string ChipId
+        {
+            get { return chipId; }
+            set { chipId = value;
+                if (newScan != null)
+                {
+                    //Throw the event
+                    newScan(this,new CheckInEventArgs(ChipId));
+                }
+            }
+        }
+
+        //Do a singleton since we never want more than 1 object listening on the comport
         private static ComPortListener instance = new ComPortListener();
 
         private ComPortListener()
@@ -47,7 +57,7 @@ namespace NordicWaterUniverse
 
         public void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            chipId = port.ReadLine();
+            ChipId = port.ReadLine();
         }
     }
 }

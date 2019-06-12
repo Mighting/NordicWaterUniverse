@@ -13,8 +13,8 @@ namespace NordicWaterUniverse
 
         public string ChipIdNumber
         {
-            get { return ChipIdNumber; }
-            private set { ChipIdNumber = value; }
+            get;
+            set;
         }
 
         public CheckInEventArgs(string chipIdNumber)

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using VJCollections;
 using System.Windows;
 
 namespace NordicWaterUniverse
@@ -13,7 +8,7 @@ namespace NordicWaterUniverse
     class CheckInViewModel : INotifyPropertyChanged
     {
         //Create a truely observable list.
-        private ItemsChangeObservableCollection<CheckIn> checkins = new ItemsChangeObservableCollection<CheckIn>();
+        private ObservableCollection<CheckIn> checkins = new ObservableCollection<CheckIn>();
 
         //Event to check on the list.
         public event PropertyChangedEventHandler PropertyChanged;
@@ -24,10 +19,10 @@ namespace NordicWaterUniverse
 
         public CheckInViewModel()
         {
-            CheckIn.getInstance().newInput += AddToList;
+            CheckIn.getInstance().PropertyChanged += AddToList;
         }
 
-        public ItemsChangeObservableCollection<CheckIn> Checkins
+        public ObservableCollection<CheckIn> Checkins
         {
             get { return checkins; }
             set
