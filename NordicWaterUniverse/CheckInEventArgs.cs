@@ -9,7 +9,7 @@ namespace NordicWaterUniverse
     class CheckInEventArgs : EventArgs
     {
 
-        private string chipIdNumber;
+        //Our own EventArgs so we can store the ID scanned
 
         public string ChipIdNumber
         {

@@ -55,6 +55,7 @@ namespace NordicWaterUniverse
             }
         }
 
+        //The method called whenever something from the ComPort is being wridden to and but that into our string
         public void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             ChipId = port.ReadLine();
