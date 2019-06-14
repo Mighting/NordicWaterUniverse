@@ -4,20 +4,25 @@ using System.ComponentModel;
 
 namespace NordicWaterUniverse
 {
-    class CheckInController : INotifyPropertyChanged
+    class CheckIn : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        private static CheckIn instance = new CheckIn();
 
-        private static CheckInController instance = new CheckInController();
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private string myChipId;
 
         public string MyChipId
         {
             get { return myChipId; }
-            set { myChipId = value;
+            set
+            {
+                myChipId = value;
                 //This gets called when MyChipId changes.
+                if (MyChipId != null)
+                {
                     OnPropertyChanged(MyChipId);
+                }
             }
         }
 
@@ -27,13 +32,13 @@ namespace NordicWaterUniverse
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private CheckInController()
+        private CheckIn()
         {
             //Subscribe to ComPortListener's newScan so we know when there have been a scan
             ComPortListener.getInstance().newScan += OnNewInput;
         }
 
-        public static CheckInController getInstance()
+        public static CheckIn getInstance()
         {
             return instance;
         }

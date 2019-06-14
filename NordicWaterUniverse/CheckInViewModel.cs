@@ -8,22 +8,19 @@ namespace NordicWaterUniverse
     class CheckInViewModel : INotifyPropertyChanged
     {
         //Create a truely observable list.
-        private ObservableCollection<CheckInController> checkins = new ObservableCollection<CheckInController>();
+        private ObservableCollection<CheckIn> checkins = new ObservableCollection<CheckIn>();
 
         //Event to check on the list.
         public event PropertyChangedEventHandler PropertyChanged;
-
-        //Create a checkin.
-        CheckInController checkin = CheckInController.getInstance();
 
 
         public CheckInViewModel()
         {
             //Subscribe to Checkin.PropertyChanged to hear when it changes
-            CheckInController.getInstance().PropertyChanged += AddToList;
+            CheckIn.getInstance().PropertyChanged += AddToList;
         }
 
-        public ObservableCollection<CheckInController> Checkins
+        public ObservableCollection<CheckIn> Checkins
         {
             get { return checkins; }
             set
@@ -41,7 +38,7 @@ namespace NordicWaterUniverse
         private void AddToList(object sender, EventArgs e)
         {
             //Tells the GUI that we have added a new object to our list
-            Application.Current.Dispatcher.Invoke((Action)(() => { checkins.Add(CheckInController.getInstance()); }));
+            Application.Current.Dispatcher.Invoke((Action)(() => { checkins.Add(CheckIn.getInstance()); }));
         }
     }
 }
