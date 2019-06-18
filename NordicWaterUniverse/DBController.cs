@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace NordicWaterUniverse
 {
@@ -12,8 +13,7 @@ namespace NordicWaterUniverse
     {
         private static DBController Dbc_Instance = new DBController();
 
-        SqlConnection connection = new SqlConnection("Data Source=ZBC-E-ROMA-1843;Initial Catalog=NordicWaterUniverseDB;Integrated Security=True");
-        SqlCommand command;
+        string connection = ("Data Source=ZBC-E-ROMA-1843;Initial Catalog=NordicWaterUniverseDB;Integrated Security=True");
 
         string newScanChipId;
 
@@ -31,7 +31,6 @@ namespace NordicWaterUniverse
 
         private void DBController_AddtoDB(object sender, EventArgs e)
         {
-            OpenSQLConnection();
 
             //Add to database here
             //We check to see what E is, and then we parse it into our own EventArgs to get the ChipIdNumber and put that into our own ChipId
@@ -41,18 +40,19 @@ namespace NordicWaterUniverse
                 newScanChipId = ch.ChipIdNumber;
             }
 
-            command = new SqlCommand($"INSERT INTO CheckedIn VALUES ({newScanChipId})", connection);
+            //Connection to DB
+            using (var conn = new SqlConnection(connection))
+            {
+                //Call the stored procedure called CheckIn in the DB
+                SqlCommand command = new SqlCommand("dbo.CheckIn", conn);
+                command.CommandType = CommandType.StoredProcedure;
 
-            command.ExecuteNonQuery();
+                command.Parameters.AddWithValue("@ChipID", newScanChipId);
 
-            connection.Close();
+                conn.Open();
+                command.ExecuteNonQuery();
+            }
 
-        }
-
-        public void OpenSQLConnection()
-        {
-            connection.Open();
-            Console.WriteLine("Connection to Database is now Open");
         }
 
     }
