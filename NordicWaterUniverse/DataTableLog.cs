@@ -10,6 +10,7 @@ namespace NordicWaterUniverse
 {
     class DataTableLog
     {
+        //Singleton
         private static DataTableLog Dtl_Instance = new DataTableLog();
 
         public event EventHandler DataTableFilled;
@@ -22,6 +23,7 @@ namespace NordicWaterUniverse
             set { dt = value;
                 if (DataTableFilled != null)
                 {
+                    //Push a notification on the event
                     DataTableFilled(this, new DbTableLogEventArgs(MyDataTable));
                 }
             }
@@ -29,11 +31,13 @@ namespace NordicWaterUniverse
 
         private DataTableLog()
         {
+            //Subcribe to the event so we know when a new scan have been made
             DBController.getInstance().NewRequest += DataTableLog_NewRequest;
         }
 
         private void DataTableLog_NewRequest(object sender, EventArgs e)
         {
+            //Get the ChipID of the scan
             if (e is DbTableLogEventArgs)
             {
                 DbTableLogEventArgs ch = (DbTableLogEventArgs)e;

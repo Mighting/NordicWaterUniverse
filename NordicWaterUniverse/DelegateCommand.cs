@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
 
+//The code below is from an Example Camilla send me.
+
+
 public class DelegateCommand : ICommand
 {
     //These delegates store methods to be called that contains the body of the Execute and CanExecue methods

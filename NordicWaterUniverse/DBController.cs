@@ -12,8 +12,10 @@ namespace NordicWaterUniverse
 {
     class DBController
     {
+        //Singleton
         private static DBController Dbc_Instance = new DBController();
 
+        //SQL Connection
         string connection = ("Data Source=ZBC-E-ROMA-1843;Initial Catalog=NordicWaterUniverseDB;Integrated Security=True");
 
         string newScanChipId;
@@ -22,6 +24,7 @@ namespace NordicWaterUniverse
 
         private DBController()
         {
+            //Subscribe to the event so we know when a new scan happend
             ComPortListener.getInstance().newScan += DBController_RunStoredProcedure;
         }
 
@@ -63,7 +66,7 @@ namespace NordicWaterUniverse
 
         }
 
-
+        //Create a Datatable
         private DataTable dt;
 
         public DataTable Dt
@@ -73,13 +76,14 @@ namespace NordicWaterUniverse
                 dt = value;
                 if (NewRequest != null)
                 {
+                    //Push a notification when event happens
                     NewRequest(this, new DbTableLogEventArgs(Dt));
                 }
             }
         }
 
 
-
+        //Call the Database and fill the return data into the Datatable
         public void DbLog()
         {
             dt = new DataTable();

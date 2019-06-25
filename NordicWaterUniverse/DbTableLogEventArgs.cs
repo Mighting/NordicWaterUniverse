@@ -9,6 +9,8 @@ namespace NordicWaterUniverse
 {
     class DbTableLogEventArgs : EventArgs
     {
+        //Our own EventArgs so we can store the Datatable that returned
+
         private DataTable dt;
 
         public DbTableLogEventArgs(DataTable dt)
