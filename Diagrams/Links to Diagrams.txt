@@ -1,0 +1,8 @@
+Class Diagram:
+https://drive.google.com/file/d/1AVmUzTWm88mvh8dDU0DHM7kZFh4TxrO2/view?usp=sharing
+
+Sequence Diagram:
+https://drive.google.com/file/d/1vQOFRzyNRdn7sUv1Q1yGvBxdpo3-Shpo/view?usp=sharing
+
+Use-Case Diagram:
+https://drive.google.com/file/d/1jS-xXvIfxF6XRdxcyWRPTsp-NM5WmW5M/view?usp=sharing
