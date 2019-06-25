@@ -7,16 +7,17 @@
         xmlns:local="clr-namespace:NordicWaterUniverse"
         xmlns:Properties="clr-namespace:NordicWaterUniverse.Properties" x:Class="NordicWaterUniverse.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="881">
 
-    <Window.DataContext>
-        <checkin:CheckInViewModel/>
-    </Window.DataContext>
+
 
     <DockPanel
         LastChildFill="true" HorizontalAlignment="Stretch"               
         VerticalAlignment="Stretch" Background="Black">
-        <ListBox DockPanel.Dock="left" Foreground="White" Background="Black" ItemsSource="{Binding Checkins}">
+        <DockPanel.DataContext>
+            <checkin:CheckInViewModel/>
+        </DockPanel.DataContext>
+        <ListBox DockPanel.Dock="left" Foreground="White" Background="Black" ItemsSource="{Binding Checkins}" Width="178" HorizontalAlignment="Left">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
@@ -25,7 +26,19 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <StackPanel Width="500" Margin="0" Height="409" VerticalAlignment="Bottom" HorizontalAlignment="Right" DockPanel.Dock="Right">
+            <StackPanel.DataContext>
+                <checkin:DBViewModel/>
+            </StackPanel.DataContext>
+            <Grid>
+                <DataGrid Height="360" Name="Check_In_log" RenderTransformOrigin="0.5,0.5" ItemsSource="{Binding DataTableToShow}">
+                </DataGrid>
+            </Grid>
+            <Button x:Name="Search_Btn" Content="Vis Historik" Foreground="White" Background="Gray" MinWidth="50" MinHeight="50" Command="{Binding DbCall}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="150,0,135,0" Width="215"/>
+        </StackPanel>
     </DockPanel>
-    
-    
+
+
+
 </Window>

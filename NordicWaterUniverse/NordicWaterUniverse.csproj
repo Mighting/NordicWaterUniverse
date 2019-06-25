@@ -67,7 +67,11 @@
     <Compile Include="CheckInEventArgs.cs" />
     <Compile Include="CheckInViewModel.cs" />
     <Compile Include="ComPortListener.cs" />
+    <Compile Include="DataTableLog.cs" />
     <Compile Include="DBController.cs" />
+    <Compile Include="DbTableLogEventArgs.cs" />
+    <Compile Include="DBViewModel.cs" />
+    <Compile Include="DelegateCommand.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

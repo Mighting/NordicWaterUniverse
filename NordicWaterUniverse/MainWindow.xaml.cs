@@ -25,7 +25,7 @@ namespace NordicWaterUniverse
 
         public MainWindow()
         {
-            InitializeComponent();       
+            InitializeComponent();
         }
     }
 }

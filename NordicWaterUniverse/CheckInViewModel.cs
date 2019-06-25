@@ -38,7 +38,7 @@ namespace NordicWaterUniverse
         private void AddToList(object sender, EventArgs e)
         {
             //Tells the GUI that we have added a new object to our list
-            Application.Current.Dispatcher.Invoke((Action)(() => { checkins.Add(CheckIn.getInstance()); }));
+            Application.Current.Dispatcher.Invoke((Action)(() => { checkins.Add(CheckIn.getInstance());}));
         }
     }
 }

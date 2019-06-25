@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Data;
+using System.ComponentModel;
 
 namespace NordicWaterUniverse
 {
@@ -17,10 +18,11 @@ namespace NordicWaterUniverse
 
         string newScanChipId;
 
+        public event EventHandler NewRequest;
+
         private DBController()
         {
-
-            ComPortListener.getInstance().newScan += DBController_AddtoDB;
+            ComPortListener.getInstance().newScan += DBController_RunStoredProcedure;
         }
 
         public static DBController getInstance()
@@ -29,10 +31,9 @@ namespace NordicWaterUniverse
         }
 
 
-        private void DBController_AddtoDB(object sender, EventArgs e)
+        private void DBController_RunStoredProcedure(object sender, EventArgs e)
         {
 
-            //Add to database here
             //We check to see what E is, and then we parse it into our own EventArgs to get the ChipIdNumber and put that into our own ChipId
             if (e is CheckInEventArgs)
             {
@@ -43,16 +44,58 @@ namespace NordicWaterUniverse
             //Connection to DB
             using (var conn = new SqlConnection(connection))
             {
+                Random rndarea = new Random();
+                int r = rndarea.Next(1, 5);
+
                 //Call the stored procedure called CheckIn in the DB
+                //Simulates that a customer enters a random area
                 SqlCommand command = new SqlCommand("dbo.CheckIn", conn);
                 command.CommandType = CommandType.StoredProcedure;
 
                 command.Parameters.AddWithValue("@ChipID", newScanChipId);
+                command.Parameters.AddWithValue("@Area", r);
+                command.Parameters.AddWithValue("@CheckInTime", DateTime.Now);
+                command.Parameters.AddWithValue("@CheckOutTime", DateTime.Now);
 
                 conn.Open();
                 command.ExecuteNonQuery();
             }
 
+        }
+
+
+        private DataTable dt;
+
+        public DataTable Dt
+        {
+            get { return dt; }
+            set {
+                dt = value;
+                if (NewRequest != null)
+                {
+                    NewRequest(this, new DbTableLogEventArgs(Dt));
+                }
+            }
+        }
+
+
+
+        public void DbLog()
+        {
+            dt = new DataTable();
+            using (var conn = new SqlConnection(connection))
+            {
+                using (var command = new SqlCommand($"SELECT * FROM dbo.Archive", conn))  
+                {
+                    conn.Open();
+                    using (SqlDataAdapter da = new SqlDataAdapter(command))
+                    {
+                        DataTable dtholder = new DataTable();
+                        da.Fill(dtholder);
+                        Dt = dtholder;
+                    }
+                }
+            }
         }
 
     }
