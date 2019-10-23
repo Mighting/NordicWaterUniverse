@@ -47,8 +47,7 @@ namespace NordicWaterUniverse
             //Connection to DB
             using (var conn = new SqlConnection(connection))
             {
-                Random rndarea = new Random();
-                int r = rndarea.Next(1, 5);
+                int r = new Random().Next(1, 5);
 
                 //Call the stored procedure called CheckIn in the DB
                 //Simulates that a customer enters a random area

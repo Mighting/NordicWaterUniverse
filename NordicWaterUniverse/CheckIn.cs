@@ -46,6 +46,7 @@ namespace NordicWaterUniverse
         //Gets called when a scan from ComportListener happend
         private void OnNewInput(object sender, EventArgs e)
         {
+            
             //We check to see what E is, and then we parse it into our own EventArgs to get the ChipIdNumber and put that into our own ChipId
             if (e is CheckInEventArgs)
             {
@@ -53,12 +54,5 @@ namespace NordicWaterUniverse
                 MyChipId = ch.ChipIdNumber;
             }
         }
-
-
-
-
-
-
-
     }
 }

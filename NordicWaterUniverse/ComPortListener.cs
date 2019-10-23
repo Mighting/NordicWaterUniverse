@@ -9,8 +9,9 @@ namespace NordicWaterUniverse
 
         private static object syncRoot = new object();
 
+
         //Connection port
-        private static SerialPort port = new SerialPort("COM9", 9600);
+        private static SerialPort port = new SerialPort("COM14", 9600);
         //Thread to make the connection
         //Thread OpenConnectionThread = new Thread(OpenConnection);
 
@@ -42,14 +43,14 @@ namespace NordicWaterUniverse
             Console.WriteLine("Hello hello");
             OpenConnection();
 
+
             //Start the Connection Thread
-           // OpenConnectionThread.Start();
+            // OpenConnectionThread.Start();
 
             //Subscribe to the Serial Data recived event
             port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
 
-
-
+            
 
         }
 
@@ -70,6 +71,7 @@ namespace NordicWaterUniverse
 
         public static void OpenConnection()
         {
+
             //Open the connection if it is closed
             if (!port.IsOpen)
             {
@@ -81,7 +83,18 @@ namespace NordicWaterUniverse
         //The method called whenever something from the ComPort is being wridden to and but that into our string
         public void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            ChipId = port.ReadLine().Trim();
+            string portdata = port.ReadLine().Trim();
+
+            if (!portdata.Equals(ChipId))
+            {
+                ChipId = portdata;
+            }
+            else if (portdata.Equals(ChipId))
+            {
+                //Do nothing
+            }
+
+            //ChipId = port.ReadLine().Trim();
         }
     }
 }
